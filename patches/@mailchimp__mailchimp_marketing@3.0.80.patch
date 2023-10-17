@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 9f9ea6b110a11c2a4f12d34c30a5bdfa150da301..24e45e4438148ea44328fd9292f647d1f974c4e0 100644
+--- a/package.json
++++ b/package.json
+@@ -12,7 +12,8 @@
+   },
+   "dependencies": {
+     "superagent": "3.8.1",
+-    "dotenv": "^8.2.0"
++    "dotenv": "^8.2.0",
++    "querystring": "^0.2.1"
+   },
+   "devDependencies": {
+     "mocha": "~2.3.4",

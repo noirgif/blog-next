@@ -13,6 +13,8 @@ import PostBanner from '@/layouts/PostBanner'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
 
+export const runtime = 'edge'
+
 const defaultLayout = 'PostLayout'
 const layouts = {
   PostSimple,
