@@ -1,0 +1,130 @@
+---
+title: "Given Name"
+date: 2023-10-16
+draft: false
+tags:
+    - blog
+    - next-js
+summary: Give a name to this blog
+---
+
+Finding the name is the easy part. There is a file `headerNavLinks.ts` inside `data`, and it contains links to the pages, the same as what the header has. Searching for its reference leads me to `Header.tsx`.
+
+```
+<div>
+    <Link href="/" aria-label={siteMetadata.headerTitle}>
+    <div className="flex items-center justify-between">
+    <div className="mr-3">
+        <Logo />
+    </div>
+    {typeof siteMetadata.headerTitle === 'string' ? (
+        <div className="hidden h-6 text-2xl font-semibold sm:block">
+        {siteMetadata.headerTitle}
+        </div>
+    ) : (
+        siteMetadata.headerTitle
+    )}
+    </div>
+    </Link>
+</div>
+```
+
+Clicking on `siteMetadata` directs me to `data/siteMetadata.js` which contains the title of the blog, and other information.
+
+What is hard is to give it a name.
+
+The previous blog site of mine, [nir.moe](https://nir.moe), is named *Goddess Unknown*. The "Unknown" part, if I remember it right, comes from Player Unknown's Battlegrounds, a shooting game.
+
+One phrase I recently came to like is 'Et omnia vanitas', from a game I do not name here. In the game, the motto is said to have a twist 'despite' to the 'everything is vanity'. Despite everything is vanity, 
+
+Another motto starts with '幾重にも辛酸を舐め', which means 'tasting the bitterness however many times', also from a game which I dare not name here. The latter correlates to Yamanaka Yukimori's '我に七難八苦を与えたまえ'　(Lit. 'Give me seven hardships and eight sufferings'), or '天将降大任于斯人也' from Mencius.
+
+On second thought, I want to take a word from [*Misty E'ra*](https://youtu.be/QJlHmk1GLOA), a song in DJMAX Respect. It uses a conlang only appears in this song and a sequel, [*Misty E'ra "Mui"*](https://youtu.be/7gv3vx-E5bM). 'Misty' means flawless, pure. There is a word for 'voice', but I need to know which one it is.
+
+> fah shu nee
+
+주문의 목소리가 들리네 (Lit. The voice of the spell is heard)
+
+> ha dec fah klee
+
+나지막한 비명이 들려온다 (Lit. A faint scream is heard)
+
+> zvah dum vrah lee klee nee
+
+고요한 하늘에 바람을 타고 오는 목소리 (Lit. quiet sky wind ride come voice)
+
+> Ha ve
+
+조용히 퍼지는 (Lit. Quietly spreading)
+
+> svui no du ha lue klee
+
+마침내 마지막 날 조용하게 스며온다. (Lit. Finally, the last day quietly seeps in.)
+
+> veshu, me de su te ar
+
+두려워하라, 내가 눈을 뜰 것이니 (Lit. Afraid, my eyes will open.)
+
+> see na floo
+
+마지막 우리의 기도임을 (Lit. Last our prayer )
+
+> fleh soo vit mah
+
+그땐 알지 못했어 (Lit. I didn't know then)
+
+> Hash tu clen ar
+
+하쉬의 의지는 영원할 것이다 (Lit. Hash's will will be eternal)
+
+> u no fech sumoo dum cle di
+
+더 이상 슬픔과 눈물은 없기를
+
+하늘 높이 외쳐본다 (Lit. more sadness and tears no longer shout high in the sky)
+
+From the first song, *Misty E'ra*:
+> Fah si da me tu
+
+I shout out my earnest will
+
+> Dum cle li ve
+
+will resound high in the sky
+
+> na floo fleh du vac si
+
+Our prayers were granted that day.
+
+> Ke flah du klee
+
+Believe, the day of salvation will come
+
+
+Which is clear to me is 'ha' is quiet, 'dum' is sky. Suppose 'fah' means hear, 'klee' means come,
+
+ha dec fah klee -> quiet shout? hear come
+
+fah shu nee -> hear spell voice
+
+zvah dum vrah lee klee nee -> quiet? sky wind ride come voice
+
+Ha ve -> quiet spread
+
+svui no du ha lue klee -> finally last day quiet ? come
+
+na floo fleh du vac si -> our prayer that day granted??
+
+fleh soo vit mah -> that time? (know not)?
+
+veshu, me de su te ar -> fear, I 's eye open will
+
+'de' means ''s' from 'Hash de lui' (Hash's prophecy) and 'Mich de halleh' (everyone's praise).
+
+So it comes down to 'Misty Nee', so not sure I like the sound of it. Plus misty is a word so it is easy to misunderstand.
+
+Just call it 'Misty Mui' then. A child it is, flawless and pure. Purely technical, that is. With the exception of this post, sadly.
+
+Sorry if it is copyrighted!
+
+I will change the icon later. Not a priority now.

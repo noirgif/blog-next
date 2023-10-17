@@ -1,23 +1,23 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Next.js Starter Blog',
-  author: 'Tails Azimuth',
-  headerTitle: 'TailwindBlog',
+  title: 'Misty Mui | Noirgif\'s Blog',
+  author: 'Noirgif',
+  headerTitle: 'MistyMui',
   description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://misty.nir.moe',
+  siteRepo: 'https://github.com/noirgif/blog-next',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
-  mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'address@yoursite.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
-  locale: 'en-US',
+  //socialBanner: '/static/images/twitter-card.png',
+  //mastodon: 'https://mastodon.social/@mastodonuser',
+  //email: '',
+  github: 'https://github.com/noirgif',
+  twitter: 'https://twitter.com/noirgif',
+  //facebook: 'https://facebook.com',
+  //youtube: 'https://youtube.com',
+  //linkedin: 'https://www.linkedin.com',
+  //locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
@@ -80,10 +80,10 @@ const siteMetadata = {
     // provider: 'algolia',
     // algoliaConfig: {
     //   // The application ID provided by Algolia
-    //   appId: 'R2IYF7ETH7',
+    //   appId: 'BSZX4B7QWI',
     //   // Public API key: it is safe to commit it
-    //   apiKey: '599cec31baffa4868cae4e79f180729b',
-    //   indexName: 'docsearch',
+    //   apiKey: '66d817339c0573c1509c1dbf664f3ad5',
+    //   indexName: 'mistymui-posts',
     // },
   },
 }
