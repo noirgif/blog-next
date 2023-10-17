@@ -75,10 +75,5 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@3.6.4",
-  "pnpm": {
-    "patchedDependencies": {
-      "@mailchimp/mailchimp_marketing@3.0.80": "patches/@mailchimp__mailchimp_marketing@3.0.80.patch"
-    }
-  }
+  "packageManager": "yarn@3.6.4"
 }
