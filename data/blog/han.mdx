@@ -1,0 +1,154 @@
+---
+title: 'Next.js Problem Escaping UTF-8 Characters'
+date: '2023-10-17'
+lastmod: '2023-10-17'
+tags: ['next-js', 'blog']
+draft: false
+summary: Is it too much to make a first build?
+images: []
+authors: ['default']
+---
+
+## TL;DR
+
+If the build fails, try updating Next.js.
+
+## Error, error never changes
+
+After finishing the giving name post, I tried to build and deploy the [blog](https://github.com/noirgif/blog-next/commit/154df1a65b85327028a02abe82f9bf0229a4788e), but I got an error.
+
+When running `pnpm run build` I got the following message:
+
+```zsh
+pnpm run build
+
+> tailwind-nextjs-starter-blog@2.0.2 build /home/noir/blog-next
+> cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs
+
+successCallback /home/noir/blog-next/.contentlayer
+(node:13705) ExperimentalWarning: Import assertions are not a stable feature of the JavaScript language. Avoid relying on their current behavior and syntax as those might change in a future version of Node.js.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13705) ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
+Local search index generated...
+Generated 4 documents in .contentlayer
+ ✓ Creating an optimized production build    
+ ✓ Compiled successfully
+   Linting and checking validity of types  ... ⚠ TypeScript project references are not fully supported. Attempting to build in incremental mode.
+ ✓ Linting and checking validity of types    
+   Collecting page data  ...SyntaxError: Unexpected token 한 in JSON at position 13394
+    at JSON.parse (<anonymous>)
+    at 7414 (/home/noir/blog-next/.next/server/chunks/414.js:1:125)
+    at t (/home/noir/blog-next/.next/server/webpack-runtime.js:1:128)
+    at 5852 (/home/noir/blog-next/.next/server/app/blog/page/[page]/page.js:1:1789)
+    at Function.t (/home/noir/blog-next/.next/server/webpack-runtime.js:1:128)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async collectGenerateParams (/home/noir/blog-next/node_modules/.pnpm/next@13.5.3_@babel+core@7.23.2_@opentelemetry+api@1.4.1_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/utils.js:858:17)
+
+> Build error occurred
+Error: Failed to collect page data for /blog/page/[page]
+    at /home/noir/blog-next/node_modules/.pnpm/next@13.5.3_@babel+core@7.23.2_@opentelemetry+api@1.4.1_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/utils.js:1178:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  type: 'Error'
+}
+   Collecting page data  . ELIFECYCLE  Command failed with exit code 1.
+```
+
+Running the first command, `pnpm cross-env INIT_CWD=$PWD next build`, I got the same error. So the problem is not in the postbuild script.
+
+Running `next dev` is also fine (both the post page and the sitemap). So the problem is not in the code.
+
+Just in case, using yarn does not change the problem (it happens in different places, and I haven't found out the rule for that).
+```
+✓ Linting and checking validity of types    
+   Collecting page data  ...SyntaxError: Unexpected token 한 in JSON at position 13394
+    at JSON.parse (<anonymous>)
+    at 5789 (/home/noir/blog-next/.next/server/app/sitemap.xml/route.js:1:548)
+```
+
+## Where to look into
+
+`.next/server/app/sitemap.xml/route.js` as well as the `.next/server/chunks/414.js` contains minified code, so we need to find out how they are generated.
+
+I went to [their site](https://nextjs.org/docs/architecture/nextjs-compiler) and found out that they use they recently implemented a new compiler, called SWC compiler, that is blazing fast, because it is written in Rust. And that comes with a minifier.
+
+Didn't I said the problems occur in minified code? So let's try turning off the SWC minifier.
+
+```diff
+diff --git a/next.config.js b/next.config.js
+index 7a2bd09..be1621a 100644
+--- a/next.config.js
++++ b/next.config.js
+@@ -60,6 +60,7 @@ const securityHeaders = [
+ module.exports = () => {
+   const plugins = [withContentlayer, withBundleAnalyzer]
+   return plugins.reduce((acc, next) => next(acc), {
++    swcMinify: false,
+     reactStrictMode: true,
+     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+     eslint: {
+```
+
+It says one of my post is missing a `images` field and it became undefined. A minor problem. So I went to add that. Since lacking images will be the everlasting problem of this blog, I decided to add a empty default value to that field.
+
+```zsh
+❯ yarn build             
+successCallback /home/noir/blog-next/.contentlayer
+(node:25190) ExperimentalWarning: Import assertions are not a stable feature of the JavaScript language. Avoid relying on their current behavior and syntax as those might change in a future version of Node.js.
+(Use `node-18 --trace-warnings ...` to show where the warning was created)
+(node:25190) ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
+Local search index generated...
+Generated 5 documents in .contentlayer
+ ✓ Creating an optimized production build    
+ ✓ Compiled successfully
+   Linting and checking validity of types  ... ⚠ TypeScript project references are not fully supported. Attempting to build in incremental mode.
+ ✓ Linting and checking validity of types    
+ ✓ Collecting page data    
+ ✓ Generating static pages (18/18) 
+ ✓ Finalizing page optimization    
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    1.47 kB        87.9 kB
+├ ○ /_not-found                          0 B                0 B
+├ ○ /about                               306 B          84.9 kB
+├ λ /api/newsletter                      0 B                0 B
+├ ○ /blog                                151 B          93.6 kB
+├ ● /blog/[...slug]                      14.6 kB         106 kB
+├   ├ /blog/given-name
+├   ├ /blog/han
+├   ├ /blog/hello-world
+├   └ /blog/home-page
+├ ● /blog/page/[page]                    152 B          93.6 kB
+├   └ /blog/page/1
+├ ○ /projects                            198 B          91.6 kB
+├ ○ /robots.txt                          0 B                0 B
+├ ○ /sitemap.xml                         0 B                0 B
+├ ○ /tags                                188 B          86.6 kB
+└ ● /tags/[tag]                          152 B          93.6 kB
+    ├ /tags/blog
+    └ /tags/next-js
++ First Load JS shared by all            79.6 kB
+  ├ chunks/864-e863a1fa8482c7cb.js       26.5 kB
+  ├ chunks/fd9d1056-80ea045f608d9add.js  51 kB
+  ├ chunks/main-app-b1e60abcd3634098.js  227 B
+  └ chunks/webpack-ccec535f92f407de.js   1.82 kB
+
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+●  (SSG)     automatically generated as static HTML + JSON (uses getStaticProps)
+
+(node:25820) ExperimentalWarning: Import assertions are not a stable feature of the JavaScript language. Avoid relying on their current behavior and syntax as those might change in a future version of Node.js.
+(Use `node-18 --trace-warnings ...` to show where the warning was created)
+(node:25820) ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
+RSS feed generated...
+```
+
+Since I fixed an error in the post, I went back to use the SWC minifier again to see if anything changes. If it does, then it might be some error handling problem. Turns out it is not.
+
+While working with Rust is not something I expected in the begining, here we go.
+
+But before we dive in, I want to try updating Next.js to 13.3.5, the latest version.
+
+And it works.
+
+By the way, there are still many open issues about their minifier, guess I am lucky to get it fixed by updating.

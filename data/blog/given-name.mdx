@@ -5,12 +5,13 @@ draft: false
 tags:
     - blog
     - next-js
+images: []
 summary: Give a name to this blog
 ---
 
 Finding the name is the easy part. There is a file `headerNavLinks.ts` inside `data`, and it contains links to the pages, the same as what the header has. Searching for its reference leads me to `Header.tsx`.
 
-```
+```js
 <div>
     <Link href="/" aria-label={siteMetadata.headerTitle}>
     <div className="flex items-center justify-between">
