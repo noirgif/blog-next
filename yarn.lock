@@ -11474,7 +11474,7 @@ __metadata:
     remark-math: ^5.1.1
     tailwindcss: ^3.3.3
     typescript: ^5.2.2
-    unist-util-visit: ^4.1.2
+    unist-util-visit: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -11990,7 +11990,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unist-util-visit@npm:^4.0.0, unist-util-visit@npm:^4.1.0, unist-util-visit@npm:^4.1.2":
+"unist-util-visit@npm:^4.0.0, unist-util-visit@npm:^4.1.0":
   version: 4.1.2
   resolution: "unist-util-visit@npm:4.1.2"
   dependencies:
