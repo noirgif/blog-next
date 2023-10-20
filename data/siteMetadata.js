@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Misty Mui | Noirgif\'s Blog',
   author: 'Noirgif',
   headerTitle: 'MistyMui',
-  description: 'A blog created with Next.js and Tailwind.css',
+  description: 'A place for a short rest.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://misty.nir.moe',

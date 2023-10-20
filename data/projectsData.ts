@@ -5,6 +5,12 @@ const projectsData = [
     imgSrc: '',
     href: 'https://github.com/noirgif/maid-sweeprs',
   },
+  {
+    title: 'Chinitool',
+    description: 'A tool to help you manage through Chinitsu',
+    imgSrc: '',
+    href: 'https://github.com/noirgif/chinitool/',
+  }
 ]
 
 export default projectsData

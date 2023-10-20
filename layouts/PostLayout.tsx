@@ -123,6 +123,16 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     </div>
                   </div>
                 )}
+                { content.readingTime && (
+                  <div className="py-4 xl:py-8">
+                    <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                      Reading time
+                    </h2>
+                    <div className="text-primary-600 dark:text-primary-600">
+                      {content.readingTime.text}
+                    </div>
+                  </div>
+                )}
                 {(next || prev) && (
                   <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
                     {prev && prev.path && (
