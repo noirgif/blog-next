@@ -1,0 +1,64 @@
+---
+title: 'Winning the (Un)luckiest Draw'
+date: '2023-10-21'
+lastmod: '2023-10-21'
+tags: ['qq', 'math']
+draft: true
+summary: 
+images: []
+authors: ['default']
+---
+
+### The Game
+
+A lottery is taking place in a QQ group.
+
+The prize is Code Vein, a nice action game.
+
+The gifter sends out a bunch of red packets with a random amount of money in each. The person who gets the least amount of money wins the game. Think about Sai Weng lost his horse -- what seems to be unfortunate is a blessing.
+
+The total amount of money is 10 yuan. 30 people are expected to participate.
+
+I take a draw.
+
+0.67 yuan.
+
+Not a bad one, if the luckiest draw wins the game, that is. Actually more than all other sent out red packets.
+
+...
+
+With the game out of the question, when should I grab the red packet?
+
+### Take a guess
+
+I heard that the red packets' values are determined at the time they are opened, rather than pre-draw. And the value is chosen from a uniform distribution between 0.01 yuan and 2 times the average of the remaining red packets. For example, there are 10 packets and 3 yuan left, then the value of next red packet $X \sim \mathcal{U}_{[0.01, 3.00/10 \times 2]}$.
+
+My thoughts:
+
+In the beginning the remaining amount is definite and certain, but we cannot predict without uncertainty the remaining amount after $n$ draws. And that uncertainty grows with $n$. And since the amount of the red packet depends on this remaining money, it will get more uncertainty as well.
+
+Therefore, if we want to win, and do not know how much is taken, we should enter as late as possible.
+
+Let us do some math.
+
+### The Math
+
+For simplicity, let the lower bound to be 0, and let there be no rounding to the nearest 0.01 yuan.
+
+Let there be $N$ red packets with a total value of $Y$. The money of each draw is $X_1, X_2, \dots, X_N$. 
+
+Therefore,
+
+$
+X_1 \sim \mathcal{U}_{[0, 2Y/N]}
+$
+
+Or its PDF,
+
+$ p_\{X_1\}(x) =  \begin\{cases\}
+    N/2Y & x \in [0, 2Y/N] \\
+    0 & \text\{otherwise\}
+    \end\{cases\}
+
+$
+
