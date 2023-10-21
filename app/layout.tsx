@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     default: siteMetadata.title,
     template: `%s | ${siteMetadata.title}`,
   },
-  description: siteMetadata.description,
+  description: siteMetadata.flavorText,
   openGraph: {
     title: siteMetadata.title,
-    description: siteMetadata.description,
+    description: siteMetadata.flavorText,
     url: './',
     siteName: siteMetadata.title,
     images: [siteMetadata.socialBanner],

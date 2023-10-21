@@ -3,7 +3,8 @@ const siteMetadata = {
   title: "Misty Mui | Noirgif's Blog",
   author: 'Noirgif',
   headerTitle: 'MistyMui',
-  description: 'A place for a short rest.',
+  flavorTextFirst: 'Hope you learn something here',
+  flavorTextSecond: 'Though StackOverflow has everything',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://misty.nir.moe',
