@@ -7,7 +7,6 @@ draft: false
 summary: Is it too much to make a first build?
 images: ['/static/images/han.jpg']
 authors: ['default']
-layout: PostBanner
 ---
 
 ## TL;DR
@@ -32,10 +31,10 @@ successCallback /home/noir/blog-next/.contentlayer
 (node:13705) ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
 Local search index generated...
 Generated 4 documents in .contentlayer
- ✓ Creating an optimized production build    
+ ✓ Creating an optimized production build
  ✓ Compiled successfully
    Linting and checking validity of types  ... ⚠ TypeScript project references are not fully supported. Attempting to build in incremental mode.
- ✓ Linting and checking validity of types    
+ ✓ Linting and checking validity of types
    Collecting page data  ...SyntaxError: Unexpected token 한 in JSON at position 13394
     at JSON.parse (<anonymous>)
     at 7414 (/home/noir/blog-next/.next/server/chunks/414.js:1:125)
@@ -59,8 +58,9 @@ Running the first command, `pnpm cross-env INIT_CWD=$PWD next build`, I got the 
 Running `next dev` is also fine (both the post page and the sitemap). So the problem is not in the code.
 
 Just in case, using yarn does not change the problem (it happens in different places, and I haven't found out the rule for that).
+
 ```
-✓ Linting and checking validity of types    
+✓ Linting and checking validity of types
    Collecting page data  ...SyntaxError: Unexpected token 한 in JSON at position 13394
     at JSON.parse (<anonymous>)
     at 5789 (/home/noir/blog-next/.next/server/app/sitemap.xml/route.js:1:548)
@@ -92,20 +92,20 @@ index 7a2bd09..be1621a 100644
 It says one of my post is missing a `images` field and it became undefined. A minor problem. So I went to add that. Since lacking images will be the everlasting problem of this blog, I decided to add a empty default value to that field.
 
 ```zsh
-❯ yarn build             
+❯ yarn build
 successCallback /home/noir/blog-next/.contentlayer
 (node:25190) ExperimentalWarning: Import assertions are not a stable feature of the JavaScript language. Avoid relying on their current behavior and syntax as those might change in a future version of Node.js.
 (Use `node-18 --trace-warnings ...` to show where the warning was created)
 (node:25190) ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
 Local search index generated...
 Generated 5 documents in .contentlayer
- ✓ Creating an optimized production build    
+ ✓ Creating an optimized production build
  ✓ Compiled successfully
    Linting and checking validity of types  ... ⚠ TypeScript project references are not fully supported. Attempting to build in incremental mode.
- ✓ Linting and checking validity of types    
- ✓ Collecting page data    
- ✓ Generating static pages (18/18) 
- ✓ Finalizing page optimization    
+ ✓ Linting and checking validity of types
+ ✓ Collecting page data
+ ✓ Generating static pages (18/18)
+ ✓ Finalizing page optimization
 
 Route (app)                              Size     First Load JS
 ┌ ○ /                                    1.47 kB        87.9 kB
@@ -150,7 +150,7 @@ While working with Rust is not something I expected in the begining, here we go.
 
 But before we dive in, I want to try updating Next.js to 13.3.5, the latest version.
 
-And... 
+And...
 
 It worked. So there is no more exploring.
 

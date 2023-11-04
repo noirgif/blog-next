@@ -1,10 +1,10 @@
 ---
-title: "Given Name"
+title: 'Given Name'
 date: 2023-10-16
 draft: false
 tags:
-    - blog
-    - next-js
+  - blog
+  - next-js
 images: []
 authors: ['default']
 summary: Give a name to this blog.
@@ -14,20 +14,18 @@ Finding the name is the easy part. There is a file `headerNavLinks.ts` inside `d
 
 ```js
 <div>
-    <Link href="/" aria-label={siteMetadata.headerTitle}>
+  <Link href="/" aria-label={siteMetadata.headerTitle}>
     <div className="flex items-center justify-between">
-    <div className="mr-3">
+      <div className="mr-3">
         <Logo />
-    </div>
-    {typeof siteMetadata.headerTitle === 'string' ? (
-        <div className="hidden h-6 text-2xl font-semibold sm:block">
-        {siteMetadata.headerTitle}
-        </div>
-    ) : (
+      </div>
+      {typeof siteMetadata.headerTitle === 'string' ? (
+        <div className="hidden h-6 text-2xl font-semibold sm:block">{siteMetadata.headerTitle}</div>
+      ) : (
         siteMetadata.headerTitle
-    )}
+      )}
     </div>
-    </Link>
+  </Link>
 </div>
 ```
 
@@ -35,13 +33,13 @@ Clicking on `siteMetadata` directs me to `data/siteMetadata.js` which contains t
 
 What is hard is to give it a name.
 
-The previous blog site of mine, [nir.moe](https://nir.moe), is named *Goddess Unknown*. The "Unknown" part, if I remember it right, comes from Player Unknown's Battlegrounds, a shooting game.
+The previous blog site of mine, [nir.moe](https://nir.moe), is named _Goddess Unknown_. The "Unknown" part, if I remember it right, comes from Player Unknown's Battlegrounds, a shooting game.
 
-One phrase I recently came to like is 'Et omnia vanitas', from a game I do not name here. In the game, the motto is said to have a twist 'despite' to the 'everything is vanity'. Despite everything is vanity, 
+One phrase I recently came to like is 'Et omnia vanitas', from a game I do not name here. In the game, the motto is said to have a twist 'despite' to the 'everything is vanity'. Despite everything is vanity,
 
 Another motto starts with '幾重にも辛酸を舐め', which means 'tasting the bitterness however many times', also from a game which I dare not name here. The latter correlates to Yamanaka Yukimori's '我に七難八苦を与えたまえ'　(Lit. 'Give me seven hardships and eight sufferings'), or '天将降大任于斯人也' from Mencius.
 
-On second thought, I want to take a word from [*Misty E'ra*](https://youtu.be/QJlHmk1GLOA), a song in DJMAX Respect. It uses a conlang only appears in this song and a sequel, [*Misty E'ra "Mui"*](https://youtu.be/7gv3vx-E5bM). 'Misty' means flawless, pure. There is a word for 'voice', but I need to know which one it is.
+On second thought, I want to take a word from [_Misty E'ra_](https://youtu.be/QJlHmk1GLOA), a song in DJMAX Respect. It uses a conlang only appears in this song and a sequel, [_Misty E'ra "Mui"_](https://youtu.be/7gv3vx-E5bM). 'Misty' means flawless, pure. There is a word for 'voice', but I need to know which one it is.
 
 > fah shu nee
 
@@ -85,7 +83,8 @@ On second thought, I want to take a word from [*Misty E'ra*](https://youtu.be/QJ
 
 하늘 높이 외쳐본다 (Lit. more sadness and tears no longer shout high in the sky)
 
-From the first song, *Misty E'ra*:
+From the first song, _Misty E'ra_:
+
 > Fah si da me tu
 
 I shout out my earnest will
@@ -101,7 +100,6 @@ Our prayers were granted that day.
 > Ke flah du klee
 
 Believe, the day of salvation will come
-
 
 Which is clear to me is 'ha' is quiet, 'dum' is sky. Suppose 'fah' means hear, 'klee' means come,
 

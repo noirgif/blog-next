@@ -7,7 +7,6 @@ draft: false
 summary: Aim for the lowest
 images: ['/static/images/red-packet/banner.jpg']
 authors: ['default']
-layout: PostBanner
 ---
 
 # The Game
@@ -56,21 +55,21 @@ $
 
 Or its PDF,
 
-$ p_{X_1}(x) = \begin{cases}
+$ p\_{X_1}(x) = \begin{cases}
 n/2y & x \in [0, 2y/n] \\
 0 & \text{otherwise}
 \end{cases}$
 
 For the second packet, we have
 
-$ p_{X_2|X_1=x_1}(x) = \begin{cases}
+$ p\_{X_2|X_1=x_1}(x) = \begin{cases}
 \frac{n-1}{2y - 2x_1} & x \in [0, 2(y-x_1)/(n-1)] \\
 0 & \text{otherwise}
 \end{cases}$
 
 Sum it over all possible $x_1$ gives us the prior probability distribution of $X_2$.
 
-$ p_{X_2}(x) = \frac{n}{2y}\int_{0}^{2y/n}\frac{n-1}{2y-2x_1}\mathbf{1}_{[0, \frac{2y-2x_1}{n-1}]}(x)dx_1, x \ge 0$
+$ p*{X_2}(x) = \frac{n}{2y}\int*{0}^{2y/n}\frac{n-1}{2y-2x*1}\mathbf{1}*{[0, \frac{2y-2x_1}{n-1}]}(x)dx_1, x \ge 0$
 
 Where $\mathbf{1}_A(x) = \begin{cases}
     1 & x \in A\\
@@ -201,11 +200,11 @@ $$
 $$
 
 4. $ \frac{2y}{n} \le x \le \frac{2y}{n-2}$, after this interval the possibility vanishes.
-$$
-    \begin{align*}
-    p_{X_3}(x) & = \frac{n}{2y}\int_{0}^{y-\frac{(n-2)x}{2}}f_2(x_1)dx_1\\
-    \end{align*}
-$$
+   $$
+       \begin{align*}
+       p_{X_3}(x) & = \frac{n}{2y}\int_{0}^{y-\frac{(n-2)x}{2}}f_2(x_1)dx_1\\
+       \end{align*}
+   $$
 
 Solving it gives:
 
@@ -350,7 +349,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Parameters
-n = 30 
+n = 30
 Y = 10
 num_samples = 1000000
 current = n
