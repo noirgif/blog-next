@@ -1,15 +1,16 @@
 ---
 title: 'Winning the (Un)luckiest Draw'
-date: '2023-10-21'
-lastmod: '2023-10-21'
-tags: ['qq', 'math']
+date: '2023-11-4'
+lastmod: '2023-11-4'
+tags: ['qq', 'math', 'stochastic process', 'mathematica']
 draft: true
-summary: 
-images: []
+summary: Aim for the lowest
+images: ['/static/images/red-packet/banner.jpg']
 authors: ['default']
+layout: PostBanner
 ---
 
-### The Game
+# The Game
 
 A lottery is taking place in a QQ group.
 
@@ -29,36 +30,396 @@ Not a bad one, if the luckiest draw wins the game, that is. Actually more than a
 
 With the game out of the question, when should I grab the red packet?
 
-### Take a guess
+# Take a guess
 
-I heard that the red packets' values are determined at the time they are opened, rather than pre-draw. And the value is chosen from a uniform distribution between 0.01 yuan and 2 times the average of the remaining red packets. For example, there are 10 packets and 3 yuan left, then the value of next red packet $X \sim \mathcal{U}_{[0.01, 3.00/10 \times 2]}$.
+According to [an employee in Wechat (in Chinese)](https://www.zhihu.com/question/22625187/answer/85530416), the red packets' values are determined at the time they are opened, rather than the time they are sent out. And the value is chosen from a uniform distribution between 0.00 yuan and 2 times the average of the remaining red packets. For example, there are 10 packets and 3 yuan left, then the value of next red packet $X \sim \mathcal{U}_{[0.00, 3.00/10 \times 2]}$. The result is clipped to 0.01 yuan minimum and rounded to the nearest 0.01 yuan.
 
-My thoughts:
-
-In the beginning the remaining amount is definite and certain, but we cannot predict without uncertainty the remaining amount after $n$ draws. And that uncertainty grows with $n$. And since the amount of the red packet depends on this remaining money, it will get more uncertainty as well.
+Assume it is true, in the beginning the remaining amount is definite and certain, so we have a uniform distribution. After $n$ draws, the uncertainty of the remaining amount grows. And since the amount of the red packet depends on this remaining money, it will get more uncertainty as well.
 
 Therefore, if we want to win, and do not know how much is taken, we should enter as late as possible.
 
-Let us do some math.
+I will show you how I approached this problem, with some code.
 
-### The Math
+# The Math
 
-For simplicity, let the lower bound to be 0, and let there be no rounding to the nearest 0.01 yuan.
+## Flop
 
-Let there be $N$ red packets with a total value of $Y$. The money of each draw is $X_1, X_2, \dots, X_N$. 
+For simplicity, let the lower bound to be 0, and let there be no rounding to the nearest 0.01 yuan, nor having a minimum of 0.01 yuan.
+
+Let there be $n$ red packets with a total value of $y$. The money of each draw is $X_1, X_2, \dots, X_n$.
 
 Therefore,
 
 $
-X_1 \sim \mathcal{U}_{[0, 2Y/N]}
+X_1 \sim \mathcal{U}_{[0, 2y/n]}
 $
 
 Or its PDF,
 
-$ p_\{X_1\}(x) =  \begin\{cases\}
-    N/2Y & x \in [0, 2Y/N] \\
-    0 & \text\{otherwise\}
-    \end\{cases\}
+$ p_{X_1}(x) = \begin{cases}
+n/2y & x \in [0, 2y/n] \\
+0 & \text{otherwise}
+\end{cases}$
 
-$
+For the second packet, we have
 
+$ p_{X_2|X_1=x_1}(x) = \begin{cases}
+\frac{n-1}{2y - 2x_1} & x \in [0, 2(y-x_1)/(n-1)] \\
+0 & \text{otherwise}
+\end{cases}$
+
+Sum it over all possible $x_1$ gives us the prior probability distribution of $X_2$.
+
+$ p_{X_2}(x) = \frac{n}{2y}\int_{0}^{2y/n}\frac{n-1}{2y-2x_1}\mathbf{1}_{[0, \frac{2y-2x_1}{n-1}]}(x)dx_1, x \ge 0$
+
+Where $\mathbf{1}_A(x) = \begin{cases}
+    1 & x \in A\\
+    0 & \text{otherwise}
+    \end{cases}$
+
+So we want to know when this indicator function $\mathbf{1}$ gives a value of 1.
+
+Solving $\frac{2y-2x_1}{n-1} \ge x$ gives us
+
+$x_1 \le y - \frac{n-1}{2}x$
+
+So outside $[0, \text{min}\{\frac{2y}{n}, y - \frac{n-1}{2}x\}]$, the conditional PDF is zero.
+
+The integration hence becomes:
+
+$\frac{n}{2y}\int_{0}^{\text{min}\{2y/n, y - (n-1)x/2\}}\frac{n-1}{2y-2x_1}dx_1$
+
+Depending on $x$, there are two cases:
+
+1. $2y/n \ge y - (n-1)x/2$, i.e. $x \ge \frac{2(n-2)}{(n-1)n} y$,
+
+   Then the integration comes to
+
+   $p_{X_2}(x) = \frac{n(n-1)}{4y}\log{\frac{2y}{(n-1)x}}$
+
+2. $2y/n \le y - (n-1)x/2$, similarly, we get
+
+   $p_{X_2}(x) = \frac{n(n-1)}{4y}\log{\frac{n}{n-2}}$
+
+Writing them together:
+
+$$
+p_{X_2}(x) = \begin{cases}
+    \frac{n(n-1)}{4y}\log{\frac{n}{n-2}} & 0 \le x \le \frac{n-2}{n-1}\frac{2y}{n}\\
+    \frac{n(n-1)}{4y}\log{\frac{2y}{(n-1)x}} & \frac{n-2}{n}\frac{2y}{n-1} \le x \le \frac{2y}{n-1}
+\end{cases}
+$$
+
+I decided to go to ChatGPT for help in plotting, and it was more than helpful -- it could even fix errors using the error message.
+
+Anyways, here is the graph of the PDF function:
+
+![n=30, y=10, X_2 PDF](/static/images/red-packet/n-30-y-10-x2-pdf.png)
+
+## Turn
+
+Spare me with a Monte-Carlo to get the histogram of the third red packet...
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+n = 30
+y = 10
+num_samples = 1000000
+current = 3
+
+partial_sums = np.zeros(num_samples)
+samples = []
+for i in range(current):
+    if (i == n - 1):
+        samples.append(y - partial_sums)
+    else:
+        samples.append(np.random.uniform(0, 2*(y - partial_sums)/(n-i)))
+    partial_sums += samples[i]
+
+
+# Plot histogram
+plt.hist(samples[current - 1], bins=1000, density=True, alpha=0.7, label=f'Approximated PDF of red packet #{current}')
+plt.xlabel(f'$x_{{{current}}}$')
+plt.ylabel('Density')
+plt.title(f'Histogram of $X_{{{current}}}$')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+![n=30, y=10, X_3 histogram](/static/images/red-packet/n-30-y-10-x3-hist.png)
+
+To do it with algebra, we can look at the self-similarity of the problem. Imagine we have $(n-1)$ red packets with a sum of $(y-x_1)$ yuan. The second red packet has a distribution of:
+
+$$
+    p_{X_3|X_1}(x) = \begin{cases}
+    \frac{(n-1)(n-2)}{4(y-x_1)}\log{\frac{n-1}{n-3}} & 0 \le x \le \frac{n-3}{n-1}\frac{2(y-x_1)}{n-2}\\
+    \frac{(n-1)(n-2)}{4(y-x_1)}\log{\frac{2(y-x_1)}{(n-2)x}} & \frac{n-3}{n-1}\frac{2(y-x_1)}{n-2} \le x \le \frac{2(y-x_1)}{n-2}
+    \end{cases}
+$$
+
+Let
+
+    $f_1(x_1) = \frac{(n-1)(n-2)}{4(y-x_1)}\log{\frac{n-1}{n-3}} \\
+    f_2(x_1) = \frac{(n-1)(n-2)}{4(y-x_1)}\log{\frac{2(y-x_1)}{(n-2)x}} $
+
+Solving $x\le \frac{n-3}{n-1}\frac{2(y-x_1)}{n-2}$ gives us $x_1 \le y - \frac{(n-2)(n-1)}{2(n-3)}x$, so it is:
+
+$$
+p_{X_3}(x) = \frac{n}{2y}\left(\int_{0}^{y-\frac{(n-2)(n-1)}{2(n-3)}x}f_1(x_1)\mathbf{1}_{[0,2y/n]}(x_1)dx_1 + \int_{y-\frac{(n-2)(n-1)}{2(n-3)}x}^{y-\frac{n-2}{2}x}f_2(x_1)\mathbf{1}_{[0,2y/n]}(x_1)dx_1\right)
+$$
+
+Solving
+
+Therefore, there are four segments:
+
+1. $\frac{2y}{n} \le y - \frac{(n-2)(n-1)}{2(n-3)}x \Rightarrow x \le \frac{2(n-3)}{(n-1)n}y$, in which case
+
+$$
+    \begin{align*}
+    p_{X_3}(x)  & = \frac{n}{2y}\int_{0}^{\frac{2y}{n}}f_1(x_1)dx_1\\
+    \end{align*}
+$$
+
+2. $\frac{2(n-3)}{(n-1)n}y \le x \le \frac{2(n-3)y}{(n-1)(n-2)}$, after this interval the left integral disappears.
+
+$$
+    \begin{align*}
+    p_{X_3}(x) & = \frac{n}{2y}\left(\int_{0}^{y-\frac{(n-2)(n-1)x}{2(n-3)}}f_1(x_1)dx_1 + \int_{y-\frac{(n-2)(n-1)x}{2(n-3)}}^{\frac{2y}{n}}f_2(x_1)dx_1 \right) \\
+    \end{align*}
+$$
+
+3. $\frac{2(n-3)y}{(n-1)(n-2)} \le x \le \frac{2y}{n}$, after this interval the upper bound of the integral becomes $y-\frac{(n-2)x}{2}$
+
+$$
+    \begin{align*}
+    p_{X_3}(x) & = \frac{n}{2y}\int_{0}^{\frac{2y}{n}}f_2(x_1)dx_1\\
+    \end{align*}
+$$
+
+4. $ \frac{2y}{n} \le x \le \frac{2y}{n-2}$, after this interval the possibility vanishes.
+$$
+    \begin{align*}
+    p_{X_3}(x) & = \frac{n}{2y}\int_{0}^{y-\frac{(n-2)x}{2}}f_2(x_1)dx_1\\
+    \end{align*}
+$$
+
+Solving it gives:
+
+$$
+p_{X_3}(x) = \begin{cases}
+    \frac{1}{8y} (n-2) (n-1) n \log \left(\frac{n-1}{n-3}\right) \log \left(\frac{n}{n-2}\right) & 0 \le x \le \frac{2(n-3)}{(n-1)n}y\\
+    \frac{n(n-2)(n-1)}{16y} \left(\left(\log ^2\left(\frac{2}{n-3}+1\right)-\log ^2\left(\frac{2 y}{n x}\right)\right)+ 2 \log \left(\frac{n-1}{n-3}\right) \left(\log (2 y)-\log \left(\frac{(n-2) (n-1) x}{n-3}\right)\right)\right) & \frac{2(n-3)}{(n-1)n}y \le x \le \frac{2(n-3)y}{(n-1)(n-2)}\\
+    \frac{(n-2) (n-1) n}{16y} \log \left(\frac{n}{n-2}\right) \log \left(\frac{4 y^2}{(n-2) n x^2}\right) & \frac{2(n-3)y}{(n-1)(n-2)} \le x \le \frac{2y}{n}\\
+    \frac{(n-2) (n-1) n}{16y} \log ^2\left(\frac{2 y}{(n-2) x}\right) & \frac{2y}{n} \le x \le \frac{2y}{n-2}
+\end{cases}
+$$
+
+And a smooth PDF graph for $n=30, y=10$:
+
+![n=30, y=10, x3 pdf](/static/images/red-packet/n-30-y-10-x3-pdf.png)
+
+How it agrees with the Monte Carlo:
+
+![Monte Carlo Comparison](/static/images/red-packet/n-30-y-10-x-3-comp.jpg)
+
+## River
+
+And with the Monte Carlo method, we can also take a look at the last red packet:
+
+![n=30, y=10, X_30 histogram](/static/images/red-packet/n-30-y-10-x30-hist.png)
+
+The histogram looks pretty much like the right half of a normal function. But it was rejected, and the p-value is zero in double precision.
+
+## Finding Estimates
+
+Since it is hard to calculate the exact function, as the pieces increase one fold with each draw, let us assume the right part is a normal distribution, and to see if it reaches some kind of a fixed point. If it is I am more confident to say it is.
+
+First the constant part on the left, solving for $x_4$, we have:
+
+$$
+x_4 \le \frac{2(n-4)(y-x_1)}{(n-2)(n-1)}
+$$
+
+$$
+x_1 \le y - \frac{(n-2)(n-1)}{2(n-4)}x_4
+$$
+
+For the interal to be constant, this upper bound should be larger than $\frac{2y}{n}$, so
+
+$$
+\begin{align*}
+y-\frac{(n-2)(n-1)}{2(n-4)} x_4 & \ge \frac{2y}{n}\\
+
+x_4 & \le \frac{2(n-4)y}{n(n-1)}
+\end{align*}
+$$
+
+For the $m$-th draw, it can be proved inductively to be:
+
+$$
+x_m \le \frac{2(n-m)y}{n(n-1)} \equiv h_{n,y}(m)
+$$
+
+However, it does not agree with larger $n$'s. Here is a histogram of $X_{50}$, $n=100$:
+
+![n=100, y=10, X_50 histogram](/static/images/red-packet/n-100-y-10-x50-hist.png)
+
+The plateau seems to continue until 0.17, but by prediction it should start declining at 0.10.
+
+So we know it is increasingly close to zero as more draw increases. Its value in the interval is:
+
+$$
+g_{n,y}(m) \equiv \frac{n!}{(n-m)!2^my}\prod_{i=2}^m\log\frac{n-i+2}{n-i}
+$$
+
+Plotting them out somehow looks like this:
+
+![n-30-y-10-plateau-value](/static/images/red-packet/n-30-y-10-plateau-value.png)
+
+Not very revealing to say the least.
+
+For the curve part, first I assume that the curve part is like (let $y = 1$, $g(m) = g_{n,1}(m)$, $h(m)$ similarly)
+
+$$
+f_{X_m}(x) = \begin{cases}
+g(m) & 0 \le x \le h(m)\\
+g(m)k\left(\frac{x-h(m)}{\frac{2}{n-m}-h(m)}\right) & h(m) \le x \le \frac{2}{n-m}
+\end{cases}
+$$
+
+So for the next red packet we have:
+
+$$
+f_{X_{m+1}|X_1}(x) = \begin{cases}
+\frac{g(m)}{1-x_1} & 0 \le x \le h(m)(1-x_1)\\
+\frac{g(m)}{1-x_1} k\left(\frac{\frac{x}{1-x_1}-h(m)}{\frac{2}{n-m+1} - h(m)}\right) & h(m)(1-x_1) \le x \le \frac{2}{n-m}(1-x_1)
+\end{cases}
+$$
+
+And it seems that we will still get a multiplying number of segments for the next function.
+
+So I think I will just try and see if half-normal is a fixed point.
+
+Let $h(m) = 0$, we have:
+
+$$
+f_{X_m}(x) = g(m)k(\frac{x(n-m+1)}2)
+$$
+
+And becomes this <a id="equation-1"/>(1):
+
+$$
+f_{X_{m+1}}(x) = \int_0^{\frac{2}{n}} g(m)k(\frac{x(n-m)}{2}\frac{1}{1-x_1})\frac{n}{2}dx_1
+$$
+
+Assuming $k_{m}(t) = e^{-\alpha t^2}$, then the right hand side becomes:
+
+$$
+f_{X_{m+1}}(x) = \frac{n}2\int_{0}^{\frac{2}{n}} e^{-\alpha \left(\frac{n-m}{2(1-x_1)}x\right)^2} dx_1
+$$
+
+Which, according to Mathematica, evaluates to
+
+$$
+\frac{1}{2} n \left(\sqrt{\pi \alpha } t \left(\text{erf}\left(\frac{\sqrt{\alpha } n t}{2-n}\right)+\text{erf}\left(\sqrt{\alpha } t\right)\right)+\left(\frac{2}{n}-1\right) e^{-\frac{\alpha  n^2 t^2}{(n-2)^2}}+e^{-\alpha t^2}\right)
+$$
+
+Because it tends to $e^{-\alpha t^2}$ when $n$ tends to infinite, the two sides of [(1)](#equation-1) will be equal.
+
+For the PDF to be normalized
+
+$$
+\begin{align*}
+\frac{1}{g(m)} & = \int_0^{\frac{2}{n-m+1}} k(x(n-m+1)/2) dx\\
+& = \frac{\sqrt{2\alpha \pi}}{n-m+1}\text{erf}\left(\frac{1}{2\sqrt{\alpha}}\right)
+\end{align*}
+$$
+
+Since $\sigma = \frac{\sqrt{2\pi}}{n}$, the mean of the half-norm is $\mu = \frac{2}{n}$. It agrees with the actual value when disregarding the error terms. So it is a possibility. Since it is currently out of my reach to figure out the plateau part, I believe Monte Carlo is the best way to go for now.
+
+## Running away from Difficulties
+
+Using Monte Carlo it is easy to figure out the chance of winning for each people drawing.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+n = 30 
+Y = 10
+num_samples = 1000000
+current = n
+
+partial_sums = np.zeros(num_samples)
+samples = np.zeros((n, num_samples))
+for i in range(current):
+    if (i == n - 1):
+        samples[i, :] = Y - partial_sums
+    else:
+        samples[i, :] = np.random.uniform(0, 2*(Y - partial_sums)/(n-i))
+    partial_sums += samples[i, :]
+
+
+min_samples = np.argmin(samples, axis=0)
+
+# Plot histogram
+# use (n+1) bins so [0, n] is filled
+plt.hist(min_samples, bins=np.arange(n+2), density=True, histtype='stepfilled', rwidth=1, alpha=0.7)
+plt.xlabel(f'$n$-th Draw')
+plt.ylabel('Probability')
+plt.title(f'Chance of Being The Unluckiest, n={n}')
+# plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+Here is the graph:
+
+![Unluckiest chance, n=30](/static/images/red-packet/n-30-y-10-unluckiest-chance.png)
+
+We can see the last person to draw has a better chance of winning, it has an advantage at around 1/3.
+
+Changing $n$ to 100, we still see a smaller advantage.
+
+![Unluckiest chance, n=100](/static/images/red-packet/n-100-unluckiest-chance.png)
+
+What I found surprising is the luckiest draw. The last draws have a huge advantage, then the first few, the middle ones have the least chance of being the luckiest:
+
+![Chance of being the Luckiest](/static/images/red-packet/n-30-luckiest-chance.png)
+
+If we take into consideration rounding up to 0.01yuan if the random number is less than it, or to the closest 0.01 yuan, we need to take care of breaking ties:
+
+```
+for i in range(current):
+    if (i == n - 1):
+        samples[i, :] = Y - partial_sums
+    else:
+        samples[i, :] = np.random.uniform(0, 2*(Y - partial_sums)/(n-i))
+    samples[i, :] = np.clip(samples[i, :], 0.01, np.inf)
+    samples[i, :] = np.round(samples[i, :] / 0.01) * 0.01
+    partial_sums += samples[i, :]
+
+# Since argmin returns the first occurrence, the first draw will be highly favored
+# when there are multiple 0.01 packets,
+# so we need a fair way of breaking ties:
+# If the red packet amount equals the least amount, assign a 1, otherwise a 0
+# so if we add a random [0, 1) number to it, we can randomly break ties when there are multiple minimums
+min_samples = np.argmax(np.random.random((n, num_samples)) + (samples == np.min(samples, axis=0)), axis=0)
+```
+
+But the graph is the same:
+
+![n=30, y=10, with rounding and clipping, randomly break ties](/static/images/red-packet/n-30-y-10-real-unluckiest-chance.png)
+
+That is about it.
+
+## Conclusion
+
+If you are aiming for the unluckiest, wait until the last minute if you can. You can get a little more value.
+
+You may completely whiff it because QQ and Wechat don't tell you how many red packets are gone, though!

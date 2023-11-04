@@ -3,6 +3,7 @@ const siteMetadata = {
   title: "Misty Mui | Noirgif's Blog",
   author: 'Noirgif',
   headerTitle: 'MistyMui',
+  // description: 'A blog about learning',
   flavorTextFirst: 'Hope you learn something here',
   flavorTextSecond: 'Though StackOverflow has everything',
   language: 'en-us',
