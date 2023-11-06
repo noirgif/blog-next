@@ -11,7 +11,7 @@
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "13.5.6",
+    "@next/bundle-analyzer": "14.0.1",
     "@tailwindcss/forms": "^0.5.6",
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "^10.4.16",
@@ -20,7 +20,7 @@
     "github-slugger": "^1.5.0",
     "gray-matter": "^4.0.3",
     "image-size": "1.0.2",
-    "next": "13.5.6",
+    "next": "14.0.1",
     "next-contentlayer": "0.3.4",
     "next-themes": "^0.2.1",
     "pliny": "0.1.5",
@@ -50,7 +50,7 @@
     "@typescript-eslint/parser": "^6.8.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.51.0",
-    "eslint-config-next": "13.5.6",
+    "eslint-config-next": "14.0.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.3",
