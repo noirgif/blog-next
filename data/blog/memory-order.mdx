@@ -1,8 +1,8 @@
 ---
 title: 'Memory Order: A Top-Down Approach'
-date: '2023-11-04'
-lastmod: '2023-11-04'
-tags: ['C++', 'programming']
+date: '2023-11-4'
+lastmod: '2023-11-4'
+tags: ['cpp', 'programming']
 draft: true
 summary: My take on C++ memory models
 images: []
@@ -22,8 +22,10 @@ Let us begin with a multi-threaded counter.
 
 using namespace std::chrono_literals;
 
+// variable to stop the loop
 bool done = false;
 
+// when not ready (nothing on the product line), put a product
 void producer(int& product, bool& ready) {
     int some_product = 0;
     while (!done) {
@@ -37,6 +39,7 @@ void producer(int& product, bool& ready) {
     }
 }
 
+// when ready, read from the `product` and print it
 void consumer(int& product, bool& ready) {
     int consumed_product = 0;
     while (!done) {
@@ -60,9 +63,26 @@ int main() {
 
     producer_thread.join();
     consumer_thread.join();
-
     return 0;
 }
 ```
 
-This program
+We want variables that are read and written concurrently to be atomic, in this case, `ready` and `product`. Here is the question: what are the minimal order constraints we need to obey?
+
+I think there are two constraints:
+
+1. If `ready` is true, the `product` we read must be the `some_product` that is set right before.
+
+In a diagram:
+
+![](/static/images/memory-order/diagram-export-11-10-2023-7_36_57-AM.png)
+
+2. We cannot set `ready` to false before reading from `product`, otherwise the producer might have the chance to overwrite the `product` before we read from it:
+
+![](/static/images/memory-order/diagram-export-11-10-2023-7_42_56-AM.png)
+
+To summarize, we cannot swap the order between 'ready = some bool' and the code **before** it, nor can we swap the order between 'read ready' and the code **after** it.
+
+And that is the spirit of `release` and `acquire`. In a world where compilers can rearrange code, and the CPU can do multithreading and pipelining, we have to ask for it by writing them in C/C++ code.
+
+Another example would be a **mutex**. We can only make accesses in the critical section -- after the lock is `acquire`d and before it is `release`d.
