@@ -3302,9 +3302,9 @@ __metadata:
   linkType: hard
 
 "@types/mdx@npm:^2.0.0, @types/mdx@npm:^2.0.8":
-  version: 2.0.9
-  resolution: "@types/mdx@npm:2.0.9"
-  checksum: 751738fc836eca71375c956ff0a428a40dfd8cabe3024971bb4b47d51b908eef4700ddac30ecf5f1b66e7fe0c474741f71880c4f4db5e7cf9db325c64d5d63c3
+  version: 2.0.12
+  resolution: "@types/mdx@npm:2.0.12"
+  checksum: 4626ba6886e33942d2380c3c5044945d94e41a8ff0893663bcf383ce3f29be381c4a72c6bc3088aa58ca3f99afa792700bf568be63111b05587f6e4c70f8a4b8
   languageName: node
   linkType: hard
 
