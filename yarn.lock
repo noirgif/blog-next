@@ -8780,6 +8780,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-themes@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "next-themes@npm:0.3.0"
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+    react-dom: ^16.8 || ^17 || ^18
+  checksum: 4285c4969eac517ad7addd773bcb71e7d14bc6c6e3b24eb97b80a6e06ac03fb6cb345e75dfb448156d14430d06289948eb8cfdeb52402ca7ce786093d01d2878
+  languageName: node
+  linkType: hard
+
 "next@npm:14.2.16":
   version: 14.2.16
   resolution: "next@npm:14.2.16"
@@ -11188,7 +11198,7 @@ __metadata:
     lint-staged: ^15.0.0
     next: 14.2.16
     next-contentlayer: ^0.3.4
-    next-themes: ^0.2.1
+    next-themes: ^0.3.0
     pliny: 0.1.5
     postcss: ^8.4.31
     prettier: ^3.0.3
