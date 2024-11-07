@@ -11,47 +11,47 @@
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "14.2.16",
+    "@next/bundle-analyzer": "15.0.2",
     "@tailwindcss/forms": "^0.5.6",
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "^10.4.16",
-    "contentlayer": "^0.3.4",
+    "contentlayer2": "^0.5.3",
     "date-fns": "^4.1.0",
     "esbuild": "0.24.0",
     "github-slugger": "^1.5.0",
     "gray-matter": "^4.0.3",
     "image-size": "1.0.2",
-    "next": "14.2.16",
-    "next-contentlayer": "^0.3.4",
+    "next": "15.0.2",
+    "next-contentlayer2": "^0.5.3",
     "next-themes": "^0.2.1",
-    "pliny": "0.1.5",
+    "pliny": "0.3.2",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "querystring": "^0.2.1",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "19.0.0-rc-02c0e824-20241028",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
     "reading-time": "1.5.0",
     "rehype-autolink-headings": "^7.0.0",
-    "rehype-citation": "^1.0.3",
-    "rehype-katex": "^6.0.3",
-    "rehype-preset-minify": "6.0.0",
-    "rehype-prism-plus": "^1.6.3",
+    "rehype-citation": "^2.2.1",
+    "rehype-katex": "^7.0.0",
+    "rehype-preset-minify": "^7.0.0",
+    "rehype-prism-plus": "^2.0.0",
     "rehype-slug": "^6.0.0",
     "remark": "^15.0.0",
-    "remark-gfm": "^3.0.1",
-    "remark-math": "^5.1.1",
+    "remark-gfm": "^4.0.0",
+    "remark-math": "^6.0.0",
     "tailwindcss": "^3.3.3",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
     "@types/mdx": "^2.0.8",
-    "@types/react": "^18.2.28",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.51.0",
-    "eslint-config-next": "14.2.16",
+    "eslint-config-next": "15.0.2",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.3",
@@ -69,9 +69,7 @@
     "@opentelemetry/semantic-conventions": "1.17.1"
   },
   "overrides": {
-    "next-contentlayer": {
-      "next": "$next"
-    }
+    "@types/react": "npm:types-react@19.0.0-rc.1"
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
