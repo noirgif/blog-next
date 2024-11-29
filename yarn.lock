@@ -6085,13 +6085,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"github-slugger@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "github-slugger@npm:1.5.0"
-  checksum: 10/c70988224578b3bdaa25df65973ffc8c24594a77a28550c3636e495e49d17aef5cdb04c04fa3f1744babef98c61eecc6a43299a13ea7f3cc33d680bf9053ffbe
-  languageName: node
-  linkType: hard
-
 "github-slugger@npm:^2.0.0":
   version: 2.0.0
   resolution: "github-slugger@npm:2.0.0"
@@ -11304,7 +11297,7 @@ __metadata:
     eslint-config-next: "npm:15.0.3"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-prettier: "npm:^5.0.1"
-    github-slugger: "npm:^1.5.0"
+    github-slugger: "npm:^2.0.0"
     gray-matter: "npm:^4.0.3"
     husky: "npm:^8.0.3"
     image-size: "npm:1.0.2"
