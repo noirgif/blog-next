@@ -13,7 +13,7 @@ I tried to write about memory order once. But I could not made it until the end.
 
 ## C++ Memory Order
 
-Let us begin with a multi-threaded counter.
+So I started out writing a producer and consumer. The producer set the value of a variable `product` while the consumer read from it.
 
 ```cpp
 #include <cassert>
@@ -67,7 +67,7 @@ int main() {
 }
 ```
 
-We want variables that are read and written concurrently to be atomic, in this case, `ready` and `product`. Here is the question: what are the minimal order constraints we need to obey?
+So here is the question: what are the minimal order constraints we need to obey?
 
 I think there are two constraints:
 
@@ -86,3 +86,25 @@ To summarize, we cannot swap the order between 'ready = some bool' and the code 
 And that is the spirit of `release` and `acquire`. In a world where compilers can rearrange code, and the CPU can do multithreading and pipelining, we have to ask for it by writing them in C/C++ code.
 
 Another example would be a **mutex**. We can only make accesses in the critical section -- after the lock is `acquire`d and before it is `release`d.
+
+## Implementation
+
+To understand how they are implemented, we need to first look at what the CPU provides us with.
+
+### x86
+
+X86 processors ensures total store ordering, so all store operations are serializable. There once were some drawbacks, where Intel's and AMD's guarantees were either too weak, or inconsistent with the chip. X86-TSO paper pointed those fallbacks out. Here is the 
+
+| C/C++11 Operation |                    x86 implementation                    |
+|:-----------------:|:--------------------------------------------------------:|
+| Load Relaxed:     | MOV (from memory)                                        |
+| Load Consume:     |   MOV (from memory)                                      |
+| Load Acquire:     |   MOV (from memory)                                      |
+| Load Seq_Cst:     |   MOV (from memory)                                      |
+| Store Relaxed:    |  MOV (into memory)                                       |
+| Store Release:    |  MOV (into memory)                                       |
+| Store Seq Cst:    |  (LOCK) XCHG    // alternative: MOV (into memory),MFENCE |
+
+## References
+
+[C/C++11 mappings to processors](https://www.cl.cam.ac.uk/~pes20/cpp/cpp0xmappings.html)
