@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch'
+import { algoliasearch } from 'algoliasearch'
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 
@@ -13,14 +13,13 @@ async function indexAlgolia() {
   }
 
   const client = algoliasearch(ALGOLIA_APP_ID, adminApiKey)
-  const index = client.initIndex(ALGOLIA_INDEX_NAME)
 
   const posts = allCoreContent(sortPosts(allBlogs)).map((post) => ({
     objectID: post.slug,
     ...post,
   }))
 
-  await index.saveObjects(posts)
+  await client.saveObjects({ indexName: ALGOLIA_INDEX_NAME, objects: posts })
   console.log(`Indexed ${posts.length} posts to Algolia`)
 }
 
