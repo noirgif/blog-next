@@ -1632,7 +1632,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docsearch/react@npm:^3.5.0":
+"@docsearch/react@npm:^3.6.2":
   version: 3.9.0
   resolution: "@docsearch/react@npm:3.9.0"
   dependencies:
@@ -4627,7 +4627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentlayer2@npm:^0.5.0, contentlayer2@npm:^0.5.3":
+"contentlayer2@npm:^0.5.3":
   version: 0.5.8
   resolution: "contentlayer2@npm:0.5.8"
   dependencies:
@@ -8754,7 +8754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-contentlayer2@npm:^0.5.0, next-contentlayer2@npm:^0.5.3":
+"next-contentlayer2@npm:^0.5.3":
   version: 0.5.8
   resolution: "next-contentlayer2@npm:0.5.8"
   dependencies:
@@ -9321,28 +9321,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pliny@npm:0.3.2":
-  version: 0.3.2
-  resolution: "pliny@npm:0.3.2"
+"pliny@npm:0.4.1":
+  version: 0.4.1
+  resolution: "pliny@npm:0.4.1"
   dependencies:
-    "@docsearch/react": "npm:^3.5.0"
+    "@docsearch/react": "npm:^3.6.2"
     "@giscus/react": "npm:^3.0.0"
     "@mailchimp/mailchimp_marketing": "npm:^3.0.80"
-    contentlayer2: "npm:^0.5.0"
+    contentlayer2: "npm:^0.5.3"
     copyfiles: "npm:^2.4.1"
     github-slugger: "npm:^2.0.0"
     js-yaml: "npm:4.1.0"
     kbar: "npm:0.1.0-beta.45"
-    next-contentlayer2: "npm:^0.5.0"
+    next-contentlayer2: "npm:^0.5.3"
     next-themes: "npm:^0.3.0"
     probe-image-size: "npm:^7.2.3"
     remark: "npm:^15.0.0"
     unist-util-visit: "npm:^5.0.0"
   peerDependencies:
     next: ">=13.0.0"
-    react: ^17.0.2 || ^18.0.0
-    react-dom: ^17.0.2 || ^18.0.0
-  checksum: 10/1f8c21f35e74fbde88992197a4f6ceca1cd48bbe97b848c06b5cda8f45680c9318570baed0a70b5d8d03fae69c112ba2c8665e96688371f5ceafa2f516f88823
+    react: ^17.0.2 || ^18 || ^19 || ^19.0.0-rc
+    react-dom: ^17.0.2 || ^18 || ^19 || ^19.0.0-rc
+  checksum: 10/68c43c6ec4553d9adb76a0cc573a4b8f45bda4e1726955d1c209adc503bc1b022bd71fdf501c5c0938d8e69336942f8e94f5ce986be9e2ce6c300a2f665d2357
   languageName: node
   linkType: hard
 
@@ -11293,7 +11293,7 @@ __metadata:
     next: "npm:15.5.15"
     next-contentlayer2: "npm:^0.5.3"
     next-themes: "npm:^0.2.1"
-    pliny: "npm:0.3.2"
+    pliny: "npm:0.4.1"
     postcss: "npm:^8.4.31"
     prettier: "npm:^3.0.3"
     prettier-plugin-tailwindcss: "npm:^0.5.0"
